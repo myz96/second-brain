@@ -36,7 +36,6 @@ export default class NodesController {
       const label = req.body.label;
       const title = req.body.title;
       const edges = req.body.edges;
-
       const nodeResponse = await NodesDAO.addNode(userId, label, title, edges);
       res.json({ status: "success", node: nodeResponse });
     } catch (e) {

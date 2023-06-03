@@ -9,13 +9,17 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null)
-    const [isLoadingUser, setIsLoadingUser] = useState(true)
+    const [isLoadingUser, setIsLoadingUser] = useState(false)
 
     useEffect(() => {
         const loginCheck = async () => {
-            const res = await axios.get("/api/sessions")
-            const user = res.data
-            if(res.status === 200) setUser(user)
+            try {
+                const res = await axios.get("/api/sessions")
+                const user = res.data
+                if(res.status === 200) setUser(user)
+            } catch (error) {
+                console.log(error.response.data)
+            }
         }
         loginCheck()
     }, [])
@@ -23,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (fields) => {
         setIsLoadingUser(true)
         const res = await axios.post("/api/sessions", fields)
-        const user = res.data
+        const user = res.data.user
         if (res.status !== 200) {
             throw {
                 status: res.status,

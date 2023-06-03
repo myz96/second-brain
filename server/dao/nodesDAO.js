@@ -52,13 +52,13 @@ export default class NodesDAO {
 
   static async addNode(userId, label, title, edges) {
     try {
-      const nodeDoc = {
-        user_id: new ObjectId(nodeId),
+      const newNode = {
+        user_id: new ObjectId(userId),
         label: label,
         title: title,
         edges: edges,
       };
-      return await nodes.insertOne(nodeDoc);
+      return await nodes.insertOne(newNode);
     } catch (e) {
       console.error(`Unable to post node: ${e}`);
       return { error: e };

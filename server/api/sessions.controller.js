@@ -11,7 +11,7 @@ export default class SessionsController {
       if(user && checkPasswordHash(password, user.password_hash)) {
         delete user.password_hash
         req.session.user = user
-        return res.json({ 
+        return res.status(200).json({ 
           message: "Successfully logged in", 
           user: {
             _id: user._id,
