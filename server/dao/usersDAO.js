@@ -121,4 +121,54 @@ export default class UsersDAO {
       throw e;
     }
   }
+
+  static async getUserByUsername(username) {
+    try {
+      const user = await users.findOne({ username: username });
+      const pipeline = [
+        {
+          $match: {
+            _id: user._id,
+          },
+        },
+        {
+          $lookup: {
+            from: "nodes",
+            let: {
+              id: "$_id",
+            },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$user_id", "$$id"],
+                  },
+                },
+              },
+              {
+                $sort: {
+                  date: -1,
+                },
+              },
+            ],
+            as: "nodes",
+          },
+        },
+        {
+          $addFields: {
+            nodes: "$nodes",
+          },
+        },
+        // {
+        //   $project: {
+        //     password_hash: 0,
+        //   },
+        // },
+      ];
+      return await users.aggregate(pipeline).next();
+    } catch (e) {
+      console.error(`Something went wrong in getUserByID: ${e}`);
+      throw e;
+    }
+  }
 }

@@ -53,7 +53,7 @@ export default class NodesDAO {
   static async addNode(userId, label, title, edges) {
     try {
       const nodeDoc = {
-        user_id: ObjectId(userId),
+        user_id: new ObjectId(nodeId),
         label: label,
         title: title,
         edges: edges,
@@ -67,11 +67,13 @@ export default class NodesDAO {
 
   static async updateNode(nodeId, userId, label, title, edges) {
     try {
+      const nodeObjectId = new ObjectId(nodeId) 
+      const userObjectId = new ObjectId(userId) 
       const updateResponse = await nodes.updateOne(
-        { user_id: ObjectId(userId), _id: ObjectId(nodeId) },
+        { _id: nodeObjectId, user_id: userObjectId },
         { $set: { label: label, title: title, edges: edges } }
       );
-
+      console.log(updateResponse);
       return updateResponse;
     } catch (e) {
       console.error(`Unable to update node: ${e}`);
@@ -81,11 +83,12 @@ export default class NodesDAO {
 
   static async deleteNode(nodeId, userId) {
     try {
+      const nodeObjectId = new ObjectId(nodeId) 
+      const userObjectId = new ObjectId(userId) 
       const deleteResponse = await nodes.deleteOne({
-        _id: ObjectId(nodeId),
-        user_id: ObjectId(userId),
+        _id: nodeObjectId,
+        user_id: userObjectId,
       });
-
       return deleteResponse;
     } catch (e) {
       console.error(`Unable to delete node: ${e}`);

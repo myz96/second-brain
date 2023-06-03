@@ -4,6 +4,7 @@ import session from "express-session"
 
 import nodes from "./api/nodes.route.js";
 import users from "./api/users.route.js";
+import sessions from "./api/sessions.route.js";
 
 const app = express();
 
@@ -19,8 +20,9 @@ app.use(
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/v1/users", users);
-app.use("/api/v1/nodes", nodes);
+app.use("/api/users", users);
+app.use("/api/nodes", nodes);
+app.use("/api/sessions", sessions);
 app.use("*", (req, res) => res.status(404).json({ error: "Path not found" }));
 
 export default app;

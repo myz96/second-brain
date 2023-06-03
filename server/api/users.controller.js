@@ -44,6 +44,21 @@ export default class UsersController {
     }
   }
 
+  static async apiGetUserByUsername(req, res, next) {
+    try {
+      let username = req.params.username || {}
+      let user = await UsersDAO.getUserByUsername(username)
+      if (!user) {
+        res.status(404).json({ error: "Not found" })
+        return
+      }
+      res.json(user)
+    } catch (e) {
+      console.log(`api, ${e}`)
+      res.status(500).json({ error: e })
+    }
+  }
+
   static async apiCreateUser(req, res, next) {
     try {
       let { username, password } = req.body;

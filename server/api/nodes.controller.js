@@ -46,14 +46,15 @@ export default class NodesController {
 
   static async apiUpdateNode(req, res, next) {
     try {
-      const nodeId = req.body.node_id;
+      const nodeId = req.body._id;
+      const userId = req.body.user_id;
       const label = req.body.label;
       const title = req.body.title;
       const edges = req.body.edges;
 
       const nodeResponse = await NodesDAO.updateNode(
         nodeId,
-        req.body.user_id,
+        userId,
         label,
         title,
         edges
@@ -78,9 +79,8 @@ export default class NodesController {
 
   static async apiDeleteNode(req, res, next) {
     try {
-      const nodeId = req.query.id;
+      const nodeId = req.body._id;
       const userId = req.body.user_id;
-
       const nodeResponse = await NodesDAO.deleteNode(nodeId, userId);
       res.json({ status: "success" });
     } catch (e) {
