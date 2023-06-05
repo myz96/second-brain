@@ -58,7 +58,8 @@ export default class NodesDAO {
         title: title,
         edges: edges,
       };
-      return await nodes.insertOne(newNode);
+      const result = await nodes.insertOne(newNode);
+      return newNode;
     } catch (e) {
       console.error(`Unable to post node: ${e}`);
       return { error: e };
@@ -67,13 +68,12 @@ export default class NodesDAO {
 
   static async updateNode(nodeId, userId, label, title, edges) {
     try {
-      const nodeObjectId = new ObjectId(nodeId) 
-      const userObjectId = new ObjectId(userId) 
+      const nodeObjectId = new ObjectId(nodeId);
+      const userObjectId = new ObjectId(userId);
       const updateResponse = await nodes.updateOne(
         { _id: nodeObjectId, user_id: userObjectId },
         { $set: { label: label, title: title, edges: edges } }
       );
-      console.log(updateResponse);
       return updateResponse;
     } catch (e) {
       console.error(`Unable to update node: ${e}`);
@@ -83,8 +83,8 @@ export default class NodesDAO {
 
   static async deleteNode(nodeId, userId) {
     try {
-      const nodeObjectId = new ObjectId(nodeId) 
-      const userObjectId = new ObjectId(userId) 
+      const nodeObjectId = new ObjectId(nodeId);
+      const userObjectId = new ObjectId(userId);
       const deleteResponse = await nodes.deleteOne({
         _id: nodeObjectId,
         user_id: userObjectId,

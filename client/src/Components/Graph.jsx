@@ -13,8 +13,15 @@ const options = {
 
 const NodeGraph = () => {
   const { graph } = useNode();
-  console.log(graph);
-  return (<Graph graph={graph} options={options} />);
+  // console.log(graph)
+  return (
+    <>
+      <Graph graph={graph} options={options} />
+    </>
+  );
 };
 
 export default NodeGraph;
+
+// Add nodes with no edges and display them in a graph
+// Add input to add edges to graph

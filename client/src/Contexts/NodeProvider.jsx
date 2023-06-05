@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
 
 const NodeContext = createContext({});
@@ -13,30 +13,34 @@ export const NodeProvider = ({ children }) => {
   const [isLoadingNode, setIsLoadingNode] = useState(false);
   const { user } = useAuth();
 
+  useEffect(() => {
+    console.log(`Graph: ${JSON.stringify(graph, null, 2)}`);
+  }, [graph]);
+
   const addNode = async (fields) => {
     setIsLoadingNode(true);
     const body = {
       user_id: user._id,
       label: fields,
       title: fields, // Replace w. ChatGPT summary
-      edges: null, // Input edges w. ChatGPT
+      edges: null, // Compute edges w. ChatGPT
     };
     const res = await axios.post("/api/nodes", body);
-    const node = res.data;
     if (res.status !== 200) {
       throw {
         status: res.status,
         message: res.message,
       };
     }
-    setGraph((prevGraph) => {
-      return {
-        nodes: [...prevGraph.nodes, { id: node.id, label: node.label }],
-        edges: [...prevGraph.edges],
-      };
-    });
+    const node = res.data.node;
 
-    // Uncommented and corrected this block of code
+    let current_graph = {...graphState, 
+      nodes: [...graphState.nodes],
+      edges: [...graphState.edges]
+    };
+
+    setGraph(current_graph);
+
     // for (let edge of node.edges) {
     //     setGraph((prevGraph) => {
     //         return {
