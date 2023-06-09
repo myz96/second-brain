@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import app from "./server.js";
 import UsersDAO from "./dao/usersDAO.js";
 import NodesDAO from "./dao/nodesDAO.js";
+import SessionsDAO from "./dao/sessionsDAO.js";
+import EdgesDAO from "./dao/edgesDAO.js";
 
 dotenv.config();
 const MongoClient = mongodb.MongoClient;
@@ -18,6 +20,8 @@ MongoClient.connect(process.env.DATABASE_URI, {})
   .then(async (client) => {
     await UsersDAO.injectDB(client);
     await NodesDAO.injectDB(client);
+    await SessionsDAO.injectDB(client);
+    await EdgesDAO.injectDB(client);
     app.listen(port, () => {
       console.log(`listening on port ${port}`);
     });

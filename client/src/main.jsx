@@ -6,17 +6,18 @@ import { ChakraProvider } from "@chakra-ui/react";
 import App from "./App.jsx";
 import { AuthProvider } from "./Contexts/AuthProvider.jsx";
 import { NodeProvider } from "./Contexts/NodeProvider.jsx";
+import { GPTProvider } from "./Contexts/GptProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <ChakraProvider>
-        <AuthProvider>
-          <NodeProvider>
+  <BrowserRouter>
+    <ChakraProvider>
+      <AuthProvider>
+        <NodeProvider>
+          <GPTProvider>
             <App />
-          </NodeProvider>
-        </AuthProvider>
-      </ChakraProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+          </GPTProvider>
+        </NodeProvider>
+      </AuthProvider>
+    </ChakraProvider>
+  </BrowserRouter>
 );

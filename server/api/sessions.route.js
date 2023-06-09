@@ -7,7 +7,9 @@ const router = express.Router();
 router
   .route("/")
   .post(SessionsController.apiCreateSession)
-  .get(SessionsController.apiGetSession)
+  .get(SessionsController.apiGetAllSessions)
   .delete(SessionsController.apiDeleteSession)
+
+router.route("/session").get(SessionsController.apiGetSession)
 
 export default router;

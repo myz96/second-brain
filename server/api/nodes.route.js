@@ -11,4 +11,6 @@ router
   .put(NodesController.apiUpdateNode)
   .delete(NodesController.apiDeleteNode);
 
+router.route("/user/:user_id").get(NodesController.apiGetAllNodesByUserId)
+
 export default router;

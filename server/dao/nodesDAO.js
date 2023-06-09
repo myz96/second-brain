@@ -50,6 +50,22 @@ export default class NodesDAO {
     }
   }
 
+  static async getAllNodesByUserId(userId) {
+    try {
+      const userIdObject = new ObjectId(userId)
+      const cursor = await nodes.find({ user_id: userIdObject });
+      console.log(userIdObject)
+      console.log(cursor)
+      const nodesList = await cursor.toArray();
+      console.log(nodesList)
+
+      return nodesList;
+    } catch (e) {
+      console.error(`Unable to get nodes: ${e}`);
+      return { error: e };
+    }
+  }
+
   static async addNode(userId, label, title, edges) {
     try {
       const newNode = {

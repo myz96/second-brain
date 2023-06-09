@@ -1,6 +1,6 @@
-import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
+import axios from "axios";
 
 const NodeContext = createContext({});
 
@@ -10,53 +10,113 @@ export const useNode = () => {
 
 export const NodeProvider = ({ children }) => {
   const [graph, setGraph] = useState({ nodes: [], edges: [] });
-  const [isLoadingNode, setIsLoadingNode] = useState(false);
+  const [isLoadingGraph, setIsLoadingGraph] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
     console.log(`Graph: ${JSON.stringify(graph, null, 2)}`);
   }, [graph]);
 
-  const addNode = async (fields) => {
-    setIsLoadingNode(true);
-    const body = {
-      user_id: user._id,
-      label: fields,
-      title: fields, // Replace w. ChatGPT summary
-      edges: null, // Compute edges w. ChatGPT
-    };
-    const res = await axios.post("/api/nodes", body);
-    if (res.status !== 200) {
-      throw {
-        status: res.status,
-        message: res.message,
-      };
+  const loadGraph = async () => {
+    setIsLoadingGraph(true)
+    const graphCopy = JSON.parse(JSON.stringify(graph));
+
+    const userId = user._id 
+    console.log(userId)
+
+    const nodeRes = await axios.get(`/api/nodes/user/${userId}`)
+    const { nodes } = nodeRes.data 
+    console.log(nodes)
+
+
+    for (let node of nodes) {
+      let { label, title } = node
+      const nodeExists = graphCopy.nodes.find(
+        (node) => node.id === label
+      );
+      if (nodeExists === undefined) {
+        graphCopy.nodes.push({ id: label, label: label, title: title, color: "#ffffff" });
+      }
     }
-    const node = res.data.node;
 
-    let current_graph = {...graphState, 
-      nodes: [...graphState.nodes],
-      edges: [...graphState.edges]
-    };
+    const edgeRes = await axios.get(`/api/edges/user/${userId}`)
+    console.log(edgeRes)
 
-    setGraph(current_graph);
+    const { edges } = edgeRes.data 
+    console.log(edges)
 
-    // for (let edge of node.edges) {
-    //     setGraph((prevGraph) => {
-    //         return {
-    //             nodes: [...prevGraph.nodes],
-    //             edges: [
-    //                 ...prevGraph.edges,
-    //                 { from: edge.from, to: edge.to }
-    //             ]
-    //         }
-    //     })
-    // }
-    setIsLoadingNode(false);
+    for (let edge of edges) {
+      let { from, to } = edge
+      const edgeExists = graphCopy.edges.find(
+        (edge) => edge.from === from && edge.to === to
+      );
+      if (edgeExists === undefined) {
+        graphCopy.edges.push({ from: from, to: to });
+      }
+    }
+
+    setGraph(graphCopy);
+    setIsLoadingGraph(false)
+  }
+
+  const updateGraph = (rawUpdates) => {
+    setIsLoadingGraph(true);
+    const update = JSON.parse(rawUpdates);
+    const graphCopy = JSON.parse(JSON.stringify(graph));
+    console.log(update);
+
+    const userId = user._id 
+    console.log(userId)
+
+    if (update.length === 0) return;
+
+    const { label, title, tags } = update;
+
+    const nodeExists = graphCopy.nodes.find((node) => node.id === label);
+    const node = { id: label, label: label, title: title, color: "#ffffff" };
+    if (nodeExists === undefined) {
+      graphCopy.nodes.push(node);
+      const res = axios.post("/api/nodes", {
+        user_id: userId,
+        ...node,
+      });
+      console.log(res);
+    }
+
+    for (let tag of tags) {
+      const tagExists = graphCopy.nodes.find((node) => node.id === tag);
+      const tagNode = {
+        id: tag,
+        label: tag,
+        color: "#ffffff",
+      };
+      if (tagExists === undefined) {
+        graphCopy.nodes.push(tagNode);
+        const res = axios.post("/api/nodes", {
+          user_id: userId,
+          ...tagNode,
+        });
+        console.log(res);
+      }
+      const edgeExists = graphCopy.edges.find(
+        (edge) => edge.from === node.id && edge.to === tagNode.id
+      );
+      if (edgeExists === undefined) {
+        graphCopy.edges.push({ from: label, to: tag });
+        const res = axios.post("/api/edges", {
+          user_id: userId,
+          from: label,
+          to: tag,
+        });
+      }
+    }
+
+    setGraph(graphCopy);
+    setIsLoadingGraph(false);
   };
 
   return (
-    <NodeContext.Provider value={{ graph, isLoadingNode, addNode }}>
+    <NodeContext.Provider value={{ graph, isLoadingGraph, updateGraph, loadGraph }}>
       {children}
     </NodeContext.Provider>
   );

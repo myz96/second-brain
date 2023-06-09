@@ -1,6 +1,8 @@
 import Graph from "react-graph-vis";
+import { useEffect } from "react";
 
 import { useNode } from "../Contexts/NodeProvider";
+import './Graph.css'
 
 const options = {
   layout: {
@@ -12,16 +14,17 @@ const options = {
 };
 
 const NodeGraph = () => {
-  const { graph } = useNode();
-  // console.log(graph)
+  const { graph, loadGraph } = useNode();
+
+  useEffect(() => {
+    loadGraph()
+  }, [])
+
   return (
-    <>
-      <Graph graph={graph} options={options} />
-    </>
+    <div className="graphContainer">
+      <Graph graph={graph} options={options}  style={{ height: "640px" }} />
+    </div>
   );
 };
 
 export default NodeGraph;
-
-// Add nodes with no edges and display them in a graph
-// Add input to add edges to graph

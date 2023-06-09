@@ -30,6 +30,16 @@ export default class NodesController {
     res.json(response);
   }
 
+  static async apiGetAllNodesByUserId(req, res, next) {
+    try {
+      const userId = req.params.user_id;
+      const nodesList = await NodesDAO.getAllNodesByUserId(userId);
+      res.json({ status: "success", nodes: nodesList });
+    } catch (e) {
+      res.status(500).json({ error: e.message });
+    }
+  }
+
   static async apiAddNode(req, res, next) {
     try {
       const userId = req.body.user_id;
