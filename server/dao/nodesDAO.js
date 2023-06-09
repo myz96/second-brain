@@ -54,10 +54,10 @@ export default class NodesDAO {
     try {
       const userIdObject = new ObjectId(userId)
       const cursor = await nodes.find({ user_id: userIdObject });
-      console.log(userIdObject)
-      console.log(cursor)
+      // console.log(userIdObject)
+      // console.log(cursor)
       const nodesList = await cursor.toArray();
-      console.log(nodesList)
+      // console.log(nodesList)
 
       return nodesList;
     } catch (e) {
@@ -66,13 +66,14 @@ export default class NodesDAO {
     }
   }
 
-  static async addNode(userId, label, title, edges) {
+  static async addNode(userId, label, title, value) {
     try {
       const newNode = {
         user_id: new ObjectId(userId),
         label: label,
         title: title,
-        edges: edges,
+        group: label,
+        value: value
       };
       const result = await nodes.insertOne(newNode);
       return newNode;
@@ -82,13 +83,13 @@ export default class NodesDAO {
     }
   }
 
-  static async updateNode(nodeId, userId, label, title, edges) {
+  static async updateNode(nodeId, userId, label, title, value) {
     try {
       const nodeObjectId = new ObjectId(nodeId);
       const userObjectId = new ObjectId(userId);
       const updateResponse = await nodes.updateOne(
         { _id: nodeObjectId, user_id: userObjectId },
-        { $set: { label: label, title: title, edges: edges } }
+        { $set: { label: label, title: title, group: label, value: value } }
       );
       return updateResponse;
     } catch (e) {

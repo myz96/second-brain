@@ -1,0 +1,13 @@
+.signin-container{
+    padding: 40px;
+    position: relative;
+    max-width: 700px;
+    margin: auto;
+}
+
+.auth-logo {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    margin: 0 30px;
+}

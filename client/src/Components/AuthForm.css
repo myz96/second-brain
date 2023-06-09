@@ -1,8 +1,5 @@
-.auth-container {
-    max-width: 500px;
-    margin: auto;
-}
-
-form {
-    padding: 20px;
+.alt-auth-button {
+    position: fixed;
+    top: 20px;
+    right: 0;
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Input, Button, Stack } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { Text, Input, Button, Stack, Box } from "@chakra-ui/react";
 
 import { useAuth } from "../Contexts/AuthProvider";
 import "./AuthForm.css";
@@ -35,15 +35,16 @@ const AuthForm = ({ mode }) => {
   };
 
   return (
-    <div className="auth-container">
-      <h1>{isSignupMode ? "Sign Up" : "Login"}</h1>
+    <Box display='flex' flexDirection='column' justifyContent='center' w="500px" margin="auto" mt="100px" >
+      <Text fontSize='4xl' mb={4} as='b' >{isSignupMode ? "Sign up" : "Sign in"}</Text>
+      <Text fontSize='md' mb={4} >{isSignupMode ? "Enter your details:" : "Use your email to sign in:"}</Text>
       <form onSubmit={handleSubmit}>
-        <Stack spacing={3}>
-          <Input placeholder="username" name="username" type="text" />
-          <Input placeholder="password" name="password" type="password" />
+        <Stack spacing={4}>
+          <Input placeholder="Email Address" name="username" type="text" />
+          <Input placeholder="Password" name="password" type="password" />
           {isSignupMode && (
             <Input
-              placeholder="confirm password"
+              placeholder="Confirm Password"
               name="confirmPassword"
               type="password"
             />
@@ -55,16 +56,32 @@ const AuthForm = ({ mode }) => {
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
       {!isSignupMode && (
-        <p>
-          First time here? <Link to="/signup">Sign up here</Link>
-        </p>
+        <Box className="alt-auth-button">
+          <Button
+            colorScheme="blue"
+            variant="outline"
+            onClick={() => navigate("/signup")}
+            width={100}
+            mr={10}
+          >
+            Sign up
+          </Button>
+        </Box>
       )}
       {isSignupMode && (
-        <p>
-          Already have an account? <Link to="/login">Login here</Link>
-        </p>
+        <Box className="alt-auth-button">
+          <Button
+            colorScheme="blue"
+            variant="outline"
+            onClick={() => navigate("/login")}
+            width={100}
+            mr={10}
+          >
+            Sign in
+          </Button>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 

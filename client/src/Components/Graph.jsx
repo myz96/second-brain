@@ -1,29 +1,48 @@
 import Graph from "react-graph-vis";
 import { useEffect } from "react";
+import { Box } from "@chakra-ui/react";
 
 import { useNode } from "../Contexts/NodeProvider";
-import './Graph.css'
+import "./Graph.css";
 
 const options = {
-  layout: {
-    hierarchical: false,
+  nodes: {
+    shape: "dot",
+    scaling: {
+      min: 10,
+      max: 30,
+    },
+    font: {
+      size: 12,
+      face: "Tahoma",
+    },
+  },
+  physics: true,
+  configure: function (option, path) {
+    if (path.indexOf("smooth") !== -1 || option === "smooth") {
+      return true;
+    }
+    return false;
   },
   edges: {
-    color: "#000000",
+    smooth: {
+      type: "continuous",
+    },
   },
 };
 
 const NodeGraph = () => {
-  const { graph, loadGraph } = useNode();
+  const { graph, loadGraph, clearGraph } = useNode();
 
   useEffect(() => {
-    loadGraph()
-  }, [])
+    clearGraph();
+    loadGraph();
+  }, []);
 
   return (
-    <div className="graphContainer">
-      <Graph graph={graph} options={options}  style={{ height: "640px" }} />
-    </div>
+    <Box position="fixed" mt={-100}>
+      <Graph graph={graph} options={options} style={{ height: "100vh" }} />
+    </Box>
   );
 };
 

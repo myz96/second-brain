@@ -1,5 +1,13 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Box, Flex, Spacer, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Spacer,
+  Button,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 
 import { useAuth } from "../Contexts/AuthProvider";
 
@@ -12,29 +20,36 @@ const NavBar = () => {
   };
 
   return (
-    <Flex bg="gray.100" p={4} align="center">
-      <Box ml={8}>
-        <h1>Second Brain</h1>
-      </Box>
+    <Flex m={5} align="center" position="relative" top="0" zIndex="9999">
+      <Flex boxShadow="md" pl={4} pr={4} pt={2} pb={2} borderRadius={10} bg="white" >
+        <Center>
+          <Image src="/public/logo192.png" h="35px" />
+          <Image src="/public/dyno-logo.png" h="40px" />
+          <Text ml={2} mr={2} fontSize="2xl" color="#f2f2f2">
+            |
+          </Text>
+          <Text ml={2} mr={2} fontSize="xl">
+            {user.username.split("@")[0]}'s dyno
+          </Text>
+        </Center>
+      </Flex>
+
       <Spacer />
-      <Box>
-        <NavLink to="/">
-          <Button >
-            Home
-          </Button>
-        </NavLink>
-        {user ? (
-          <Button mr={4} onClick={handleLogout}>
+
+      <Flex boxShadow="md" pl={4} pr={4} pt={2} pb={2} borderRadius={10} bg="white">
+        <Center>
+          <Image src="https://placedog.net/500" borderRadius="full" boxSize="40px" objectFit="cover" border="1px" borderColor="blue" />
+          <Button
+            onClick={handleLogout}
+            w={100}
+            ml={2}
+            mr={2}
+            colorScheme="blue"
+          >
             Logout
           </Button>
-        ) : (
-          <NavLink to="/login">
-            <Button >
-              Login
-            </Button>
-          </NavLink>
-        )}
-      </Box>
+        </Center>
+      </Flex>
     </Flex>
   );
 };

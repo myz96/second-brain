@@ -56,12 +56,13 @@ export default class EdgesDAO {
     }
   }
 
-  static async addEdge(userId, from, to) {
+  static async addEdge(userId, from, to, color) {
     try {
       const newEdge = {
         user_id: new ObjectId(userId),
         from: from,
         to: to,
+        color: color
       };
       const result = await edges.insertOne(newEdge);
       return result;

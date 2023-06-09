@@ -24,7 +24,7 @@ export const GPTProvider = ({ children }) => {
   const queryPrompt = async (prompt) => {
     setIsLoadingGPT(true);
     try {
-      const response = await axios.get("assets/chatgpt.prompt");
+      const response = await axios.get("public/chatgpt.prompt");
       const query = response.data.replace("$prompt", prompt);
       console.log(query);
 
@@ -44,13 +44,14 @@ export const GPTProvider = ({ children }) => {
       );
 
       const { choices } = gptResponse.data;
+      // console.log(choices);
 
       const text = choices[0].text;
       console.log(text);
 
-      setGPTResponse(text);
+      // setGPTResponse(text);
       setIsLoadingGPT(false);
-      // return text
+      return text;
     } catch (error) {
       console.log(error);
       setIsLoadingGPT(false);

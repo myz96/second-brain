@@ -1,9 +1,0 @@
-Given a prompt, summarise the prompt as a label and extrapolate as many concepts as possible from it as a list of tags.
-
-Example:
-prompt: Acquired Pinduoduo episode talks about how they used WeChat as a social platform to build a mini app that then went viral since people from tier 3 and tier 4 cities were able to buy really cheap goods together, this is really cool because it’s a proxy for a retail disrupter, aggregating demand on the buyer side and allowing them to go straight to a manufacturer.
-updates:
-{"label": "Pinduoduo's Innovative Use of WeChat for Viral Growth and Retail Disruption via Demand Aggregation", "title": "Acquired Pinduoduo episode talks about how they used WeChat as a social platform to build a mini app that then went viral since people from tier 3 and tier 4 cities were able to buy really cheap goods together, this is really cool because it’s a proxy for a retail disrupter, aggregating demand on the buyer side and allowing them to go straight to a manufacturer.", "tags":["Social Commerce", "Viral Marketing", "Demand Aggregation", "Retail Disruption", "WeChat Mini-App", "E-commerce Innovation", "Pinduoduo's Business Model", "Manufacturer Direct Selling", "Buyer Empowerment", "Digital Platform Strategy", "Market Penetration in Lower-Tier Cities", "Group Buying", "Affordable Goods", "Social Media Integration", "Chinese Internet Economy"]}
-
-prompt: $prompt
-updates:
