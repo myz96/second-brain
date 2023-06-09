@@ -1,0 +1,15 @@
+{
+  "name": "second-brain",
+  "version": "1.0.0",
+  "description": "Second Brain is an application designed to store, organise and facilitate creativity around your ideas. It works similarly to how a brain connects different ideas. By using the GPT API, it generates tags and displays them as a graph that connects different ideas together.",
+  "main": "index.js",
+  "scripts": {
+    "install-server": "cd backend && npm install",
+    "start-server": "cd backend && node app.js",
+    "install-client": "cd client && npm install",
+    "build-client": "cd client && npm run build",
+    "start-client": "cd client && npm run start"  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
