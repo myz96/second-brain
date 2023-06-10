@@ -49,9 +49,9 @@ export const GPTProvider = ({ children }) => {
       const text = choices[0].text;
       console.log(text);
 
-      // setGPTResponse(text);
+      setGPTResponse(text);
       setIsLoadingGPT(false);
-      return text;
+      // return text;
     } catch (error) {
       console.log(error);
       setIsLoadingGPT(false);

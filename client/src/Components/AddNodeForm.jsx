@@ -18,11 +18,10 @@ const AddNodeForm = () => {
   const { updateGraph } = useNode();
   const { queryPrompt, GPTResponse } = useGPT();
 
-  // useEffect(() => {
-  //   if (GPTResponse !== null) {
-  //     updateGraph(GPTResponse);
-  //   }
-  // }, [GPTResponse, updateGraph]);
+  useEffect(() => {
+    if(GPTResponse !== null)
+      updateGraph(GPTResponse);
+  }, [GPTResponse]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
