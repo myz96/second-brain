@@ -23,8 +23,8 @@ const NavBar = () => {
     <Flex m={5} align="center" position="relative" top="0" zIndex="9999">
       <Flex boxShadow="md" pl={4} pr={4} pt={2} pb={2} borderRadius={10} bg="white" >
         <Center>
-          <Image src="/public/logo192.png" h="35px" />
-          <Image src="/public/dyno-logo.png" h="40px" />
+          <Image src="/logo192.png" h="35px" />
+          <Image src="/dyno-logo.png" h="40px" />
           <Text ml={2} mr={2} fontSize="2xl" color="#f2f2f2">
             |
           </Text>

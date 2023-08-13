@@ -45,8 +45,10 @@ export default class NodesController {
       const userId = req.body.user_id;
       const label = req.body.label;
       const title = req.body.title;
-      const edges = req.body.edges;
-      const nodeResponse = await NodesDAO.addNode(userId, label, title, edges);
+      const group = req.body.group;
+      // console.log(group)
+      const value = req.body.value;
+      const nodeResponse = await NodesDAO.addNode(userId, label, title, group, value);
       res.json({ status: "success", node: nodeResponse });
     } catch (e) {
       res.status(500).json({ error: e.message });
@@ -58,15 +60,17 @@ export default class NodesController {
       const nodeId = req.body._id;
       const userId = req.body.user_id;
       const label = req.body.label;
+      const group = req.body.group;
       const title = req.body.title;
-      const edges = req.body.edges;
+      const value = req.body.value;
 
       const nodeResponse = await NodesDAO.updateNode(
         nodeId,
         userId,
         label,
         title,
-        edges
+        group,
+        value
       );
 
       var { error } = nodeResponse;

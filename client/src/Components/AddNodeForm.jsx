@@ -33,8 +33,8 @@ const AddNodeForm = () => {
         return;
       }
       const gptResponse = await queryPrompt(userInput);
-      // const gptResponse = `{"label": "Test3", "title": "Amazon Working Backwards Prime Video chapter says that Amazon Unbox was one of the first digital video platforms, likely born out of their kindle success, but they still failed behind Apple that had greater success with movies and iTunes on their iPod.", "tags":["Digital Video Platforms", "Amazon Unbox", "Apple iTunes", "Movies", "iPod", "Kindle", "Competitive Advantage", "Streaming Media", "Content Delivery", "Digital Distribution", "Entertainment Industry", "Technology Innovation", "Consumer Electronics", "Online Video Platforms", "Market Disruption"]}`// Mock Response
-      // console.log(gptResponse)
+      // const gptResponse = `{"label": "Test4", "title": "Amazon Working Backwards Prime Video chapter says that Amazon Unbox was one of the first digital video platforms, likely born out of their kindle success, but they still failed behind Apple that had greater success with movies and iTunes on their iPod.", "tags":["Digital Video Platforms", "Amazon Unbox", "Apple iTunes", "Movies", "iPod", "Kindle", "Competitive Advantage", "Streaming Media", "Content Delivery", "Digital Distribution", "Entertainment Industry", "Technology Innovation", "Consumer Electronics", "Online Video Platforms", "Market Disruption"]}`// Mock Response
+      console.log(gptResponse)
       updateGraph(gptResponse)
       navigate("/");
     } catch (err) {

@@ -37,12 +37,12 @@ export const NodeProvider = ({ children }) => {
 
 
     for (let node of nodes) {
-      let { label, title, value } = node
+      let { label, title, group, value  } = node
       const nodeExists = graphCopy.nodes.find(
         (node) => node.id === label
       );
       if (nodeExists === undefined) {
-        graphCopy.nodes.push({ id: label, label: label, title: title, group: label, value: value });
+        graphCopy.nodes.push({ id: label, label: label, title: title, group: group, value: value });
       }
     }
 
@@ -61,7 +61,7 @@ export const NodeProvider = ({ children }) => {
         graphCopy.edges.push({ from: from, to: to, color: color });
       }
     }
-
+    console.log(graphCopy)
     setGraph(graphCopy);
     setIsLoadingGraph(false)
   }
@@ -97,12 +97,14 @@ export const NodeProvider = ({ children }) => {
 
     for (let tag of tags) {
       const tagExists = graphCopy.nodes.find((node) => node.id === tag);
+      // console.log(label)
       const tagNode = {
         id: tag,
         label: tag,
         group: label, 
         value: 1
       };
+      // console.log(tagNode.group)
       if (tagExists === undefined) {
         graphCopy.nodes.push(tagNode);
         const res = axios.post("/api/nodes", {

@@ -66,15 +66,16 @@ export default class NodesDAO {
     }
   }
 
-  static async addNode(userId, label, title, value) {
+  static async addNode(userId, label, title, group, value) {
     try {
       const newNode = {
         user_id: new ObjectId(userId),
         label: label,
         title: title,
-        group: label,
+        group: group,
         value: value
       };
+      // console.log("In the DAO",newNode.group)
       const result = await nodes.insertOne(newNode);
       return newNode;
     } catch (e) {

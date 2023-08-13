@@ -24,7 +24,7 @@ export const GPTProvider = ({ children }) => {
   const queryPrompt = async (prompt) => {
     setIsLoadingGPT(true);
     try {
-      const response = await axios.get("public/chatgpt.prompt");
+      const response = await axios.get("/chatgpt.prompt");
       const query = response.data.replace("$prompt", prompt);
       console.log(query);
 

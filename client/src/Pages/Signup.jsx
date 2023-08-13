@@ -12,7 +12,7 @@ const Login = () => {
   return (
     <Box className="signin-container" >
       <Image
-        src="/public/dyno-logo.png"
+        src="/dyno-logo.png"
         alt="dyno logo"
         h="50px"
         className="auth-logo"

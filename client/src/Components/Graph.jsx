@@ -1,8 +1,9 @@
 import Graph from "react-graph-vis";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 
 import { useNode } from "../Contexts/NodeProvider";
+import { useAuth } from "../Contexts/AuthProvider";
 import "./Graph.css";
 
 const options = {
@@ -33,11 +34,21 @@ const options = {
 
 const NodeGraph = () => {
   const { graph, loadGraph, clearGraph } = useNode();
+  const { user } = useAuth();
+  const [isGraphCleared, setIsGraphCleared] = useState(false);
+
+  useEffect(() => {
+    if (isGraphCleared) {
+      loadGraph();
+      setIsGraphCleared(false);
+    }
+  }, [isGraphCleared]);
 
   useEffect(() => {
     clearGraph();
-    loadGraph();
-  }, []);
+    // console.log("Cleared graph - Graph:", graph);
+    setIsGraphCleared(true);
+  }, [user]);
 
   return (
     <Box position="fixed" mt={-100}>

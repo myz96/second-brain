@@ -11,7 +11,7 @@ export default class SessionsController {
 
       if (user && checkPasswordHash(password, user.password_hash)) {
         delete user.password_hash;
-        req.session.user = user;
+        // req.session.user = user;
         const sessionResponse = await SessionsDAO.addSession(user);
         return res.status(200).json({
           message: "Successfully logged in",
@@ -45,7 +45,7 @@ export default class SessionsController {
   }
 
   static async apiDeleteSession(req, res, next) {
-    req.session.destroy();
+    // req.session.destroy();
     const session = await SessionsDAO.getSession();
     const sessionResponse = await SessionsDAO.deleteSession(session);
     res.json({ message: "Logged out successfully", response: sessionResponse });

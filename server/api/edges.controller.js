@@ -45,7 +45,8 @@ export default class EdgesController {
       const userId = req.body.user_id;
       const from = req.body.from;
       const to = req.body.to;
-      const edgeResponse = await EdgesDAO.addEdge(userId, from, to);
+      const color = req.body.color
+      const edgeResponse = await EdgesDAO.addEdge(userId, from, to, color);
       res.json({ status: "success", edge: edgeResponse });
     } catch (e) {
       res.status(500).json({ error: e.message });
@@ -57,7 +58,8 @@ export default class EdgesController {
       const userId = req.body.user_id;
       const from = req.body.from;
       const to = req.body.to;
-      const edgeResponse = await EdgesDAO.deleteEdge(userId, from, to);
+      const color = req.body.color
+      const edgeResponse = await EdgesDAO.deleteEdge(userId, from, to, color);
       res.json({ status: "success", response: edgeResponse });
     } catch (e) {
       res.status(500).json({ error: e.message });
