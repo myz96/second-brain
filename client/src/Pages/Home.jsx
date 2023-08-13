@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import NavBar from "../Components/Navbar";
+import NavBar from "../Components/NavBar";
 import AddNodeForm from "../Components/AddNodeForm";
 import Graph from "../Components/Graph";
 import { useAuth } from "../Contexts/AuthProvider";
