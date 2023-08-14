@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import session from "express-session"
+import session from "cookie-session"
 
 import nodes from "./api/nodes.route.js";
 import users from "./api/users.route.js";
