@@ -13,7 +13,7 @@ export default defineConfig({
     },
     proxy: {
       "/api": {
-        target: "https://secondbrain-api.onrender.com",
+        target: "https://secondbrain-gptgraph.onrender.com",
         changeOrigin: true,
         secure: false,
       },
