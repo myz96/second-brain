@@ -43,5 +43,7 @@ There are several enhancements planned for future development:
 - Semantic analysis: Turn ideas into vectors that inherently represent the semantic meaning.
 
 ## Demo
-[URL Placeholder]
-
+[Link to Demo](https://secondbrain-gptgraph.onrender.com/) 
+Test Account Details:
+Username: michael.yj.zhao@gmail.com
+Password: testtest
