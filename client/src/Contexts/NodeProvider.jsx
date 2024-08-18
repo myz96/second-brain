@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthProvider";
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const NodeContext = createContext({});
 
 export const useNode = () => {
@@ -31,7 +33,7 @@ export const NodeProvider = ({ children }) => {
     const userId = user._id 
     console.log(userId)
 
-    const nodeRes = await axios.get(`https://secondbrain-gptgraph-api.onrender.com/api/nodes/user/${userId}`)
+    const nodeRes = await axios.get(`${apiUrl}/api/nodes/user/${userId}`)
     const { nodes } = nodeRes.data 
     // console.log(nodes)
 
@@ -46,7 +48,7 @@ export const NodeProvider = ({ children }) => {
       }
     }
 
-    const edgeRes = await axios.get(`https://secondbrain-gptgraph-api.onrender.com/api/edges/user/${userId}`)
+    const edgeRes = await axios.get(`${apiUrl}/api/edges/user/${userId}`)
     // console.log(edgeRes)
 
     const { edges } = edgeRes.data 
@@ -88,7 +90,7 @@ export const NodeProvider = ({ children }) => {
     if (nodeExists === undefined) {
       // console.log("Node doesn't exist")
       graphCopy.nodes.push(node);
-      const res = axios.post("https://secondbrain-gptgraph-api.onrender.com/api/nodes", {
+      const res = axios.post(`${apiUrl}/api/nodes`, {
         user_id: userId,
         ...node,
       });
@@ -107,7 +109,7 @@ export const NodeProvider = ({ children }) => {
       // console.log(tagNode.group)
       if (tagExists === undefined) {
         graphCopy.nodes.push(tagNode);
-        const res = axios.post("https://secondbrain-gptgraph-api.onrender.com/api/nodes", {
+        const res = axios.post(`${apiUrl}/api/nodes`, {
           user_id: userId,
           ...tagNode,
         });
@@ -118,7 +120,7 @@ export const NodeProvider = ({ children }) => {
       );
       if (edgeExists === undefined) {
         graphCopy.edges.push({ from: label, to: tag, color: { inherit: "from" } });
-        const res = axios.post("https://secondbrain-gptgraph-api.onrender.com/api/edges", {
+        const res = axios.post(`${apiUrl}/api/edges`, {
           user_id: userId,
           from: label,
           to: tag,

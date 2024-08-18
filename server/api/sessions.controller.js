@@ -8,7 +8,7 @@ export default class SessionsController {
       const { username, password } = req.body;
 
       const user = await UsersDAO.getUserByUsername(username);
-
+      console.log(req.body)
       if (user && checkPasswordHash(password, user.password_hash)) {
         delete user.password_hash;
         // req.session.user = user;

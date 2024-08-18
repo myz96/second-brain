@@ -1,6 +1,8 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
+const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:8080";
+
 const AuthContext = createContext({});
 
 export const useAuth = () => {
@@ -15,9 +17,8 @@ export const AuthProvider = ({ children }) => {
     setIsLoadingUser(true);
     const loginCheck = async () => {
       try {
-        const res = await axios.get("https://secondbrain-gptgraph-api.onrender.com/api/sessions/session");
+        const res = await axios.get(`${apiUrl}/api/sessions/session`);
         const user = res.data;
-        console.log(user)
         if (res.status === 200) {
           setUser(user);
         }
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (fields) => {
     setIsLoadingUser(true);
-    const res = await axios.post("https://secondbrain-gptgraph-api.onrender.com/api/sessions", fields);
+    const res = await axios.post(`${apiUrl}/api/sessions`, fields);
     const user = res.data.user;
     if (res.status !== 200) {
       throw {
@@ -45,14 +46,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    const res = await axios.delete("https://secondbrain-gptgraph-api.onrender.com/api/sessions");
+    await axios.delete(`${apiUrl}/api/sessions`);
     setUser(null);
   };
 
   const signup = async (fields) => {
     setIsLoadingUser(true);
-    const signupRes = await axios.post("https://secondbrain-gptgraph-api.onrender.com/api/users", fields);
-    const sessionRes = await axios.post("https://secondbrain-gptgraph-api.onrender.com/api/sessions", fields);
+    const signupRes = await axios.post(`${apiUrl}/api/users`, fields);
+    await axios.post(`${apiUrl}/api/sessions`, fields);
     const user = signupRes.data;
     setUser(user);
     setIsLoadingUser(false);

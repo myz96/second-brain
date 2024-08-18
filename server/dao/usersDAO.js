@@ -7,6 +7,7 @@ export default class UsersDAO {
       return;
     }
     try {
+      console.log(process.env.DATABASE_NS)
       users = await conn.db(process.env.DATABASE_NS).collection("users");
     } catch (e) {
       console.error(
@@ -123,6 +124,7 @@ export default class UsersDAO {
   }
 
   static async getUserByUsername(username) {
+    console.log(username)
     try {
       const user = await users.findOne({ username: username });
       const pipeline = [
@@ -167,7 +169,7 @@ export default class UsersDAO {
       ];
       return await users.aggregate(pipeline).next();
     } catch (e) {
-      console.error(`Something went wrong in getUserByID: ${e}`);
+      console.error(`Something went wrong in getUserByUsername: ${e}`);
       throw e;
     }
   }
