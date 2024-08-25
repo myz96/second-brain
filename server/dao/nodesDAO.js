@@ -66,6 +66,17 @@ export default class NodesDAO {
     }
   }
 
+  static async getNode(nodeId) {
+    try {
+      const cursor = await nodes.find({ _id: nodeId });
+      const node = await cursor.toArray();
+      return node;
+    } catch (e) {
+      console.error(`Unable to post node: ${e}`);
+      return { error: e };
+    }
+  }
+
   static async addNode(userId, label, title, group, value) {
     try {
       const newNode = {

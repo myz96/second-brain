@@ -31,12 +31,9 @@ export const NodeProvider = ({ children }) => {
     const graphCopy = JSON.parse(JSON.stringify(graph));
 
     const userId = user._id 
-    console.log(userId)
 
     const nodeRes = await axios.get(`${apiUrl}/api/nodes/user/${userId}`)
     const { nodes } = nodeRes.data 
-    // console.log(nodes)
-
 
     for (let node of nodes) {
       let { label, title, group, value  } = node
@@ -49,10 +46,8 @@ export const NodeProvider = ({ children }) => {
     }
 
     const edgeRes = await axios.get(`${apiUrl}/api/edges/user/${userId}`)
-    // console.log(edgeRes)
 
     const { edges } = edgeRes.data 
-    // console.log(edges)
 
     for (let edge of edges) {
       let { from, to, color } = edge
@@ -63,7 +58,7 @@ export const NodeProvider = ({ children }) => {
         graphCopy.edges.push({ from: from, to: to, color: color });
       }
     }
-    console.log(graphCopy)
+    // console.log(graphCopy)
     setGraph(graphCopy);
     setIsLoadingGraph(false)
   }
@@ -72,21 +67,16 @@ export const NodeProvider = ({ children }) => {
     setIsLoadingGraph(true);
     const update = JSON.parse(rawUpdates);
     const graphCopy = JSON.parse(JSON.stringify(graph));
-    // console.log(update);
-    // console.log(graphCopy)
 
     const userId = user._id 
-    // console.log(userId)
 
     if (update.length === 0) return;
 
     const { label, title, tags } = update;
 
     const nodeExists = graphCopy.nodes.find((node) => node.id === label);
-    // console.log(nodeExists)
 
     const node = { id: label, label: label, title: title, group: label, value: 2 };
-    // console.log(node)
     if (nodeExists === undefined) {
       // console.log("Node doesn't exist")
       graphCopy.nodes.push(node);
@@ -94,26 +84,31 @@ export const NodeProvider = ({ children }) => {
         user_id: userId,
         ...node,
       });
-      // console.log(res);
     }
 
     for (let tag of tags) {
       const tagExists = graphCopy.nodes.find((node) => node.id === tag);
-      // console.log(label)
       const tagNode = {
         id: tag,
         label: tag,
         group: label, 
         value: 1
       };
-      // console.log(tagNode.group)
+      console.log(tagExists)
+      if(tagExists){
+        const res = axios.get(`${apiUrl}/api/nodes/${tag}`)
+        const node = res.data.node;
+        axios.put(`${apiUrl}/api/nodes`, {
+          ...node,
+          value: node.value + 1
+        })
+      }
       if (tagExists === undefined) {
         graphCopy.nodes.push(tagNode);
         const res = axios.post(`${apiUrl}/api/nodes`, {
           user_id: userId,
           ...tagNode,
         });
-        // console.log(res);
       }
       const edgeExists = graphCopy.edges.find(
         (edge) => edge.from === node.id && edge.to === tagNode.id
